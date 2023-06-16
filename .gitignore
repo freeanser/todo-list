@@ -1,0 +1,9 @@
+# Mac 自動產生的暫存檔案
+.DS_Store*
+Icon?
+._*
+
+# npm 產生的資料
+node_modules
+*.log
+*.gz
