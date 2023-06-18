@@ -2,6 +2,11 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const port = 3000
+const exphbs = require('express-handlebars')
+const Todo = require('./models/todo')
+
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
 
 // 僅在非正式環境時，使用dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -20,8 +25,11 @@ db.once('open', () => {
 })
 
 app.get('/', (req, res) => {
-  res.send('I am here.')
-  // res.render
+  // 拿到全部的 Todo 資料
+  Todo.find()
+    .lean()// 不需要 mongoose 把資料都做成 mongoose 的 model，只需要單純的資料
+    .then(todos => res.render('index', { todos })) //then : 下一步 // { todos : todos} = { todos }
+    .catch(error => console.error('error')) //catch :抓錯誤
 })
 
 app.listen(port, () => {
