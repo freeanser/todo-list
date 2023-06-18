@@ -1,0 +1,6 @@
+<form action="/todos/{{todo._id}}/edit" method="POST">
+  {{!-- 要寫一個用POST來接他 --}}
+  <input type="text" placeholder="name" mame="name" value="{{todo.name}}">
+  <button type="submit">Save</button>
+  <a href="/">back</a>
+</form>

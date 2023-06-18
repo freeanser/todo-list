@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
   // 拿到全部的 Todo 資料
   Todo.find()
     .lean()// 不需要 mongoose 把資料都做成 mongoose 的 model，只需要單純的資料
-    .then(todos => res.render('index', { todos })) //then : 下一步 // { todos : todos} = { todos }
+    .then(todos => res.render('index', { todos })) //then : 下一步 // 把從資料庫拿到的資料，取名 todo : { todos : todos} = { todos }
     .catch(error => console.error('error')) //catch :抓錯誤
 })
 
@@ -51,12 +51,44 @@ app.post('/todos', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// detail
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
   // 找到 Todo 這個 collection
   return Todo.findById(id) // 從資料庫找出資料
-    .lean()
-    .then(todo => res.render('detail', { todo }))
+    .lean() // 把資料轉換成單純的ＪＳ物件
+    .then(todo => res.render('detail', { todo })) // 把資料送給前端樣版
+    .catch(error => console.log(error))
+})
+
+// edit
+app.get('/todos/:id/edit', (req, res) => {
+  const id = req.params.id
+  // 找到 Todo 這個 collection
+  return Todo.findById(id) // 從資料庫找出資料
+    .lean() // 把資料轉換成單純的ＪＳ物件
+    .then(todo => res.render('edit', { todo })) // 把資料送給前端樣版
+    .catch(error => console.log(error))
+})
+
+app.post('/todos/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
+  return Todo.findById(id) // 從資料庫找出資料
+    .then(todo => {
+      todo.name = name
+      return todo.save() // 有新的更動，都要先return
+    })
+    .then(() => res.redirect(`/todos/${id}`)) // 把新資料丟去詳細頁
+    .catch(error => console.log(error))
+})
+
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id
+  // 確保這個id在資料庫中，是存在的
+  return Todo.findById(id)
+    .then(todo => todo.remove())
+    .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
