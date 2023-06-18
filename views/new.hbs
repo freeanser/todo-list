@@ -1,0 +1,9 @@
+<form action="/todos" method="POST">
+  {{!-- action 這個表單要送去哪裡 --}}
+  {{!-- 「用 POST 方法，把資料送給 /todos 位置」，這代表等下我們需要再新增一條 POST /todos 路由來接住這筆表單資料。 --}}
+
+  <input type="text" placeholder="name" name="name">
+  {{!-- 當輸入框為空時，placeholder文本會顯示在輸入框中，一旦使用者開始輸入，該文本就會消失 --}}
+  {{!-- 設定 name="name"，後面我們可以用 req.body.name 拿出這個輸入框的 value --}}
+  <button type="" submit>Create</button>
+</form>

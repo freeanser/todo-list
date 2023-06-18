@@ -3,10 +3,14 @@ const app = express()
 const mongoose = require('mongoose')
 const port = 3000
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+
 const Todo = require('./models/todo')
 
+// 引入 資源
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
+app.use(bodyParser.urlencoded({ extended: true })) // use：每一個require都需要來這裡; urlencoded：幫忙解析內容
 
 // 僅在非正式環境時，使用dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -30,6 +34,21 @@ app.get('/', (req, res) => {
     .lean()// 不需要 mongoose 把資料都做成 mongoose 的 model，只需要單純的資料
     .then(todos => res.render('index', { todos })) //then : 下一步 // { todos : todos} = { todos }
     .catch(error => console.error('error')) //catch :抓錯誤
+})
+
+app.get('/todos/new', (req, res) => {
+  return res.render('new')
+})
+
+app.post('/todos', (req, res) => {
+  const name = req.body.name
+  // const todo = new Todo({
+  //   name // = name:name
+  // }) // 在資料庫中的新資料
+
+  return Todo.create() // 把資料寫回去伺服器端
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
 
 app.listen(port, () => {
