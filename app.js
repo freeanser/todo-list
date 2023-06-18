@@ -51,6 +51,15 @@ app.post('/todos', (req, res) => {
     .catch(error => console.log(error))
 })
 
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  // 找到 Todo 這個 collection
+  return Todo.findById(id) // 從資料庫找出資料
+    .lean()
+    .then(todo => res.render('detail', { todo }))
+    .catch(error => console.log(error))
+})
+
 app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}`)
 })
