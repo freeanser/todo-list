@@ -4,13 +4,15 @@ const mongoose = require('mongoose')
 const port = 3000
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
-
 const Todo = require('./models/todo')
+const methodOverride = require('method-override')
+
 
 // 引入 資源
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true })) // use：每一個require都需要來這裡; urlencoded：幫忙解析內容
+app.use(methodOverride('_method'))
 
 // 僅在非正式環境時，使用dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -71,13 +73,13 @@ app.get('/todos/:id/edit', (req, res) => {
     .then(todo => res.render('edit', { todo })) // 把資料送給前端樣版
     .catch(error => console.log(error))
 })
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone } = req.body
 
   return Todo.findById(id) // 從資料庫找出資料
     .then(todo => {
-      console.log('req.body', req.body)
+      // console.log('req.body', req.body)
       todo.name = name
       todo.isDone = isDone === 'on'
       return todo.save() // 有新的更動，都要先return
@@ -87,7 +89,7 @@ app.post('/todos/:id/edit', (req, res) => {
 })
 
 // delete
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   // 確保這個id在資料庫中，是存在的
   return Todo.findById(id)
