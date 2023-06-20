@@ -3,6 +3,8 @@
 <ul>
   {{#each todos}}
   <li>
+    {{!-- disable: 只能檢視，不能修改 --}}
+    <input type="checkbox" name="isDone" {{#if this.isDone }} checked {{/if}} disable>
     {{{this.name}}}
     <a href="./todos/{{ this._id}}">detail</a> {{!-- 找到資料庫中的_id --}}
     <a href="./todos/{{ this._id}}/edit">edit</a>

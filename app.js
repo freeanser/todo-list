@@ -36,10 +36,10 @@ app.get('/', (req, res) => {
     .catch(error => console.error('error')) //catch :抓錯誤
 })
 
+// new
 app.get('/todos/new', (req, res) => {
   return res.render('new')
 })
-
 app.post('/todos', (req, res) => {
   const name = req.body.name
   // const todo = new Todo({
@@ -70,19 +70,22 @@ app.get('/todos/:id/edit', (req, res) => {
     .then(todo => res.render('edit', { todo })) // 把資料送給前端樣版
     .catch(error => console.log(error))
 })
-
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const { name, isDone } = req.body
+
   return Todo.findById(id) // 從資料庫找出資料
     .then(todo => {
+      console.log('req.body', req.body)
       todo.name = name
+      todo.isDone = isDone === 'on'
       return todo.save() // 有新的更動，都要先return
     })
     .then(() => res.redirect(`/todos/${id}`)) // 把新資料丟去詳細頁
     .catch(error => console.log(error))
 })
 
+// delete
 app.post('/todos/:id/delete', (req, res) => {
   const id = req.params.id
   // 確保這個id在資料庫中，是存在的
