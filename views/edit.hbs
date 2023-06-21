@@ -1,5 +1,5 @@
 <form action="/todos/{{todo._id}}?_method=PUT" method="POST">
-  {{!-- 要寫一個用POST來接他 --}}
+  {{!-- 要寫一個用PUT來接他 --}}
   <input type="checkbox" name="isDone" {{#if todo.isDone}} checked {{/if}}>
   <input type="text" placeholder="name" mame="name" value="{{todo.name}}">
   <button type="submit">Save</button>
