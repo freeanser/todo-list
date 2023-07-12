@@ -1,3 +1,5 @@
+// router.use('/todos', todos) 
+
 const express = require('express')
 const router = express.Router()
 const Todo = require('../../models/todo')
@@ -7,12 +9,13 @@ router.get('/new', (req, res) => {
   return res.render('new')
 })
 router.post('/', (req, res) => {
+  console.log('req.body:', req.body)
   const name = req.body.name
   // const todo = new Todo({
   //   name // = name:name
   // }) // 在資料庫中的新資料
 
-  return Todo.create() // 把資料寫回去伺服器端
+  return Todo.create({ name }) // 把資料寫回去伺服器端
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })

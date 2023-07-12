@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   // 拿到全部的 Todo 資料
   Todo.find()
     .lean()// 不需要 mongoose 把資料都做成 mongoose 的 model，只需要單純的資料
-    .sort({ name: "asc" }) // 反續： desc
+    .sort({ _id: "asc" }) // 反序： desc
     .then(todos => res.render('index', { todos })) //then : 下一步 // 把從資料庫拿到的資料，取名 todo : { todos : todos} = { todos }
     .catch(error => console.error('error')) //catch :抓錯誤
 })

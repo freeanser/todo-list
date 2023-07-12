@@ -1,11 +1,6 @@
 // config 指參數的調整 （configuration 環境設定）
 const mongoose = require('mongoose')
 
-// 僅在非正式環境時，使用dotenv
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-
 // 連線
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
