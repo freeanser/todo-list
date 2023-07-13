@@ -1,7 +1,7 @@
 // router.use('/todos', todos) 
-
 const express = require('express')
 const router = express.Router()
+
 const Todo = require('../../models/todo')
 
 // new
@@ -50,7 +50,7 @@ router.put('/:id', (req, res) => {
       todo.isDone = isDone === 'on'
       return todo.save() // 有新的更動，都要先return
     })
-    .then(() => res.redirect(`/${id}`)) // 把新資料丟去詳細頁
+    .then(() => res.redirect(`/todos/${id}`)) // 把新資料丟去詳細頁
     .catch(error => console.log(error))
 })
 
