@@ -9,7 +9,6 @@ router.get('/new', (req, res) => {
   return res.render('new')
 })
 router.post('/', (req, res) => {
-  console.log('req.body:', req.body)
   const name = req.body.name
   // const todo = new Todo({
   //   name // = name:name
