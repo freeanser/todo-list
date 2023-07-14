@@ -14,6 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 const routes = require('./routes') // = const routes = require('./routes/index')
 const port = 3000
 
+const usePassport = require('./config/passport')
 require('./config/mongoose') //對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數
 
 // 使用套件產生的東西
@@ -25,10 +26,13 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(session({
   secret: "ThisIsMySecret",
-  resave: false, // resave: 每次跟使用者互動，都會存新的 session
+  resave: false, // resave: 每次跟使用者互動，都會強制更新 session
   saveUninitialized: true // 儲存新的 session
 }))
 app.use(methodOverride('_method'))
+
+usePassport(app) // 因為 passport 最後是輸出一個 function
+
 app.use(routes)
 
 // 建立監聽器
