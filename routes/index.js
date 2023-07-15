@@ -6,9 +6,13 @@ const router = express.Router()
 const home = require('./modules/home')
 const todos = require('./modules/todos')
 const users = require('./modules/users')
-router.use('/', home)
-router.use('/todos', todos)
+
+const { authenticator } = require('../middleware/auth')
+
+// home, todos 都是要驗證後，才能進入的
+router.use('/todos', authenticator, todos) // 條件嚴謹的放前面（要符合 /todos）
 router.use('/users', users)
+router.use('/', authenticator, home) // 條件寬鬆的放後面（要符合 / 即可）
 
 // 導出此路由
 module.exports = router
