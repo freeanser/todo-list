@@ -1,7 +1,7 @@
 // "config" 通常指的是配置（configuration）或設定（settings）。配置是指在應用程式中使用的各種設定、選項和參數，以便控制應用程式的行為和屬性。
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const LocalStrategy = require('passport-facebook').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 
 const User = require('../models/user')
