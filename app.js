@@ -6,6 +6,8 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 
+require('dotenv').config()
+
 // 僅在非正式環境時，使用dotenv
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -26,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // use：每一個require都�
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(session({
-  secret: "ThisIsMySecret",
+  secret: process.env.SESSION_SECRET,
   resave: false, // resave: 每次跟使用者互動，都會強制更新 session
   saveUninitialized: true // 儲存新的 session
 }))
