@@ -20,3 +20,4 @@ db.once('open', () => {
   console.log('mongobd connected')
 })
 
+module.exports = db
