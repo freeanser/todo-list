@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // 引用自己定義好的設定
 const routes = require('./routes') // = const routes = require('./routes/index')
-const port = 3000
+const PORT = process.env.PORT || 3000
 
 const usePassport = require('./config/passport')
 require('./config/mongoose') //對 app.js 而言，Mongoose 連線設定只需要「被執行」，不需要接到任何回傳參數繼續利用，所以這裡不需要再設定變數
@@ -47,6 +47,6 @@ app.use((req, res, next) => {
 app.use(routes)
 
 // 建立監聽器
-app.listen(port, () => {
-  console.log(`App is running on http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`App is running on http://localhost:${PORT}`)
 })
